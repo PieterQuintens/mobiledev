@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">TriviaKing</string>
+
+    <string name="hey_pieter">"Hey Pieter!"</string>
+    <string name="hey_dary">"Hey Dary!"</string>
+    <string name="button_content">"Zeg \"Hey\" terug!"</string>
+</resources>
