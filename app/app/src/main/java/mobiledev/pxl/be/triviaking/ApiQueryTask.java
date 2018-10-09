@@ -2,7 +2,6 @@ package mobiledev.pxl.be.triviaking;
 
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,12 +15,9 @@ import java.net.URL;
 import javax.net.ssl.HttpsURLConnection;
 
 public class ApiQueryTask extends AsyncTask<String, Void, String> {
+    public CallbackInterface delegate = null;
 
     private JSONObject jsonObject;
-
-    public JSONObject getJsonObject() {
-        return jsonObject;
-    }
 
     @Override
     protected String doInBackground(String... strings) {
@@ -63,7 +59,7 @@ public class ApiQueryTask extends AsyncTask<String, Void, String> {
 
         try {
             jsonObject = new JSONObject(s);
-
+            delegate.processFinish(jsonObject);
             Log.i("token", s);
         } catch (JSONException e) {
             e.printStackTrace();

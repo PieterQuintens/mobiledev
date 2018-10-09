@@ -1,32 +1,24 @@
 package mobiledev.pxl.be.triviaking;
 
-import android.annotation.SuppressLint;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements CallbackInterface {
+    private JSONObject result;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
-        try {
-            getCategories();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        getCategories();
+
 
         findViewById(R.id.main_button).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,20 +37,24 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void getCategories() throws InterruptedException {
+    public void getCategories() {
 
 
         final ApiQueryTask task = new ApiQueryTask();
-
-        synchronized (task){
-            task.execute("https://opentdb.com/api_category.php");
-
-            if(task == null){
-                task.wait();
-            } else {
-                Log.i("test " ,task.getJsonObject().toString());
-            }
+        task.delegate = this;
+        task.execute("https://opentdb.com/api_category.php");
+        try {
+            Log.i("Tag", result.getString("name"));
+        } catch (Exception e) {
+            Log.e("Exception", "Json");
         }
+
+    }
+
+    @Override
+    public void processFinish(JSONObject result) {
+        this.result = result;
+    }
 
 //        try {
 //            JSONArray array = new JSONArray(task.getJsonObject());
@@ -71,5 +67,4 @@ public class MainActivity extends AppCompatActivity {
 //        }
 
 
-    }
 }
