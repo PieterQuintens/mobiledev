@@ -17,14 +17,10 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class ApiQueryTask extends AsyncTask<String, Void, String> {
 
-    private String token;
+    private JSONObject jsonObject;
 
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
+    public JSONObject getJsonObject() {
+        return jsonObject;
     }
 
     @Override
@@ -33,7 +29,7 @@ public class ApiQueryTask extends AsyncTask<String, Void, String> {
         URL url;
         HttpsURLConnection urlConnection = null;
 
-        try{
+        try {
             url = new URL(strings[0]);
 
             urlConnection = (HttpsURLConnection) url.openConnection();
@@ -44,7 +40,7 @@ public class ApiQueryTask extends AsyncTask<String, Void, String> {
 
             int data = reader.read();
 
-            while (data != -1){
+            while (data != -1) {
                 char current = (char) data;
 
                 results += current;
@@ -53,9 +49,9 @@ public class ApiQueryTask extends AsyncTask<String, Void, String> {
             }
 
             return results;
-        } catch (MalformedURLException e){
+        } catch (MalformedURLException e) {
             e.printStackTrace();
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return null;
@@ -66,12 +62,9 @@ public class ApiQueryTask extends AsyncTask<String, Void, String> {
         super.onPostExecute(s);
 
         try {
-            JSONObject jsonObject = new JSONObject(s);
+            jsonObject = new JSONObject(s);
 
-            String token = jsonObject.getString("token");
-
-            Log.i("token", token);
-            setToken(token);
+            Log.i("token", s);
         } catch (JSONException e) {
             e.printStackTrace();
         }
