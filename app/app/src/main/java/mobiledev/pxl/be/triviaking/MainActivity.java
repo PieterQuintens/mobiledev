@@ -19,6 +19,9 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
+        final ApiQueryTask task = new ApiQueryTask();
+        task.execute("https://opentdb.com/api_token.php?command=request");
+
         findViewById(R.id.main_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -28,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
                 TextView view = findViewById(R.id.main_textview);
 
                 if(view.getText().equals(pieter)){
-                    view.setText(dary);
+                    view.setText(task.getToken());
                 } else {
                     view.setText(pieter);
                 }
