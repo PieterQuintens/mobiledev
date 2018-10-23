@@ -4,9 +4,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.zxing.WriterException;
+
 import org.json.JSONObject;
+
+import mobiledev.pxl.be.triviaking.support.QRCodeSupporter;
 
 
 public class MainActivity extends AppCompatActivity implements CallbackInterface {
@@ -15,12 +20,12 @@ public class MainActivity extends AppCompatActivity implements CallbackInterface
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.i("log","Entered On Create");
+        setContentView(R.layout.activity_main);
+       // getCategories();
 
-        setContentView(R.layout.activity_test);
-        getCategories();
 
-
-        findViewById(R.id.main_button).setOnClickListener(new View.OnClickListener() {
+       /* findViewById(R.id.main_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String pieter = getString(R.string.hey_pieter);
@@ -33,8 +38,21 @@ public class MainActivity extends AppCompatActivity implements CallbackInterface
                 } else {
                     view.setText(pieter);
                 }
+
+                ImageView imageView = findViewById(R.id.qrImageView);
+                try{
+
+                    QRCodeSupporter.encodeAsBitmap(pieter, imageView);
+                } catch (WriterException exception){
+                    Log.i("log",exception.getMessage());
+                    imageView.setImageDrawable(getDrawable(R.drawable.ic_launcher_background));
+                }
             }
-        });
+
+
+        });*/
+
+
     }
 
     public void getCategories() {
