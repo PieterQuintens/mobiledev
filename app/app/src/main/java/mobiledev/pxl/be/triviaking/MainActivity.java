@@ -5,7 +5,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+
 import org.json.JSONObject;
+
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.google.zxing.WriterException;
+
+import org.json.JSONObject;
+
+import mobiledev.pxl.be.triviaking.support.QRCodeSupporter;
+
 
 public class MainActivity extends AppCompatActivity implements CallbackInterface {
     private JSONObject result;
@@ -16,7 +27,6 @@ public class MainActivity extends AppCompatActivity implements CallbackInterface
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
-        getCategories();
 
         findViewById(R.id.new_quiz).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,27 +65,9 @@ public class MainActivity extends AppCompatActivity implements CallbackInterface
         startActivity(i);
     }
 
-    public void getCategories() {
-        final ApiQueryTask task = new ApiQueryTask();
-        task.delegate = this;
-        task.execute("https://opentdb.com/api_category.php");
-    }
-
     @Override
     public void processFinish(JSONObject result) {
         this.result = result;
         Log.i("Tagtag", result.toString());
     }
-
-//        try {
-//            JSONArray array = new JSONArray(task.getJsonObject());
-//
-//            for(int i = 0 ; i < array.length() ; i++){
-//                Log.i("getCategories: ", array.getJSONObject(i).getString("name"));
-//            }
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-
-
 }
