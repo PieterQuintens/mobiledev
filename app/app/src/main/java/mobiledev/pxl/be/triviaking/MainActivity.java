@@ -1,59 +1,70 @@
 package mobiledev.pxl.be.triviaking;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
-
 import org.json.JSONObject;
-
 
 public class MainActivity extends AppCompatActivity implements CallbackInterface {
     private JSONObject result;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_test);
+        setContentView(R.layout.activity_main);
         getCategories();
 
-
-        findViewById(R.id.main_button).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.new_quiz).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String pieter = getString(R.string.hey_pieter);
-                String dary = getString(R.string.hey_dary);
+                onNewQuiz();
+            }
+        });
 
-                TextView view = findViewById(R.id.main_textview);
+        findViewById(R.id.scan_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onScanButton();
+            }
+        });
 
-                if (view.getText().equals(pieter)) {
-                    view.setText(dary);
-                } else {
-                    view.setText(pieter);
-                }
+        findViewById(R.id.history).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onHistoryButton();
             }
         });
     }
 
+    private void onHistoryButton() {
+        Intent i = new Intent(this, HistoryActivity.class);
+        startActivity(i);
+    }
+
+    private void onScanButton() {
+        Intent i = new Intent(this, CodeScanActivity.class);
+        startActivity(i);
+    }
+
+    private void onNewQuiz() {
+        Intent i = new Intent(this, NewQuizActivity.class);
+        startActivity(i);
+    }
+
     public void getCategories() {
-
-
         final ApiQueryTask task = new ApiQueryTask();
         task.delegate = this;
         task.execute("https://opentdb.com/api_category.php");
-        try {
-            Log.i("Tag", result.getString("name"));
-        } catch (Exception e) {
-            Log.e("Exception", "Json");
-        }
-
     }
 
     @Override
     public void processFinish(JSONObject result) {
         this.result = result;
+        Log.i("Tagtag", result.toString());
     }
 
 //        try {
