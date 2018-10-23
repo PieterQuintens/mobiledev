@@ -1,7 +1,22 @@
 <resources>
-    <string name="app_name">TriviaKing</string>
+    <string name="app_name">Trivia King</string>
 
     <string name="hey_pieter">"Hey Pieter!"</string>
     <string name="hey_dary">"Hey Dary!"</string>
     <string name="button_content">"Zeg \"Hey\" terug!"</string>
+
+    <string name="new_quiz">New Quiz</string>
+    <string name="scan_qr">Scan QR</string>
+    <string name="history">History</string>
+
+    <string name="category_label">Category</string>
+    <string name="number_of_questions_label">Number of questions</string>
+    <string name="difficulty_label">Difficulty</string>
+    <string name="generate_button_label">Generate!</string>
+
+    <string name="pre_start_label">Quiz generated</string>
+    <string name="start_button_label">Start</string>
+    <string name="share_button_label">Share</string>
+
+    <string name="result_title">Result</string>
 </resources>
