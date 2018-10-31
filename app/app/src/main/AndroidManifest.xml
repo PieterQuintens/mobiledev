@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="mobiledev.pxl.be.triviaking">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -22,17 +22,23 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".NewQuizActivity"
+        <activity
+            android:name=".NewQuizActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
-            android:theme="@style/FullscreenTheme">
-
-        </activity>
-        <activity android:name=".HistoryActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/app_name"
-            android:theme="@style/FullscreenTheme">
-
+            android:theme="@style/FullscreenTheme"></activity>
+        <activity
+            android:name=".QuizListActivity"
+            android:label="@string/title_quiz_list"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".QuizDetailActivity"
+            android:label="@string/title_quiz_detail"
+            android:parentActivityName=".QuizListActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="mobiledev.pxl.be.triviaking.QuizListActivity" />
         </activity>
     </application>
 

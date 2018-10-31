@@ -19,7 +19,8 @@ public class DbHelper extends SQLiteOpenHelper {
                 DatabaseContract.Quiz._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 DatabaseContract.Quiz.CREATED + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
                 DatabaseContract.Quiz.CATEGORY + " TEXT NOT NULL," +
-                DatabaseContract.Quiz.DATA + " TEXT NOT NULL"+
+                DatabaseContract.Quiz.DATA + " TEXT NOT NULL,"+
+                DatabaseContract.Quiz.QUESTIONS + " INTEGER NOT NULL" +
                 ")";
         db.execSQL(SQL_CREATE_QUIZ_TABLE);
     }

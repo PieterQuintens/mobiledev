@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements CallbackInterface
     }
 
     private void onHistoryButton() {
-        Intent i = new Intent(this, HistoryActivity.class);
+        Intent i = new Intent(this, QuizListActivity.class);
         startActivity(i);
     }
 

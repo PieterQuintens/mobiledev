@@ -19,4 +19,6 @@
     <string name="share_button_label">Share</string>
 
     <string name="result_title">Result</string>
+    <string name="title_quiz_list">Quizzes</string>
+    <string name="title_quiz_detail">Quiz Detail</string>
 </resources>
