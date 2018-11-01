@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import java.util.List;
 import mobiledev.pxl.be.triviaking.fragmentsupport.Quiz;
 import mobiledev.pxl.be.triviaking.fragmentsupport.QuizContent;
 import mobiledev.pxl.be.triviaking.fragmentsupport.SimpleItemRecyclerViewAdapter;
+import mobiledev.pxl.be.triviaking.support.Remembrance;
 
 public class QuizListActivity extends AppCompatActivity {
 
@@ -34,6 +36,7 @@ public class QuizListActivity extends AppCompatActivity {
         if (findViewById(R.id.quiz_detail_container) != null) {
             mTwoPane = true;
         }
+        Remembrance.quizDetailContext = this;
 
         View recyclerView = findViewById(R.id.quiz_list);
         assert recyclerView != null;
@@ -41,6 +44,7 @@ public class QuizListActivity extends AppCompatActivity {
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
+        QuizContent.loadItems(this);
         recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, QuizContent.ITEMS, mTwoPane));
     }
 }

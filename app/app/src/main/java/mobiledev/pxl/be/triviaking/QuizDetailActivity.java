@@ -10,15 +10,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 
+import mobiledev.pxl.be.triviaking.support.Remembrance;
+
 public class QuizDetailActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz_detail);
+        Remembrance.quizDetailContext = this;
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);
-
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
@@ -26,8 +28,8 @@ public class QuizDetailActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             Bundle arguments = new Bundle();
-            arguments.putString(QuizDetailFragment.ARG_ITEM_ID,
-                    getIntent().getStringExtra(QuizDetailFragment.ARG_ITEM_ID));
+            arguments.putInt(QuizDetailFragment.ARG_ITEM_ID,
+                    getIntent().getIntExtra(QuizDetailFragment.ARG_ITEM_ID,1));
             QuizDetailFragment fragment = new QuizDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()

@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="#fff"
+    android:layout_height="wrap_content">
+
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:background="#fff"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <TextView
         android:layout_width="wrap_content"
@@ -24,6 +31,7 @@
         android:textSize="20sp"
         android:layout_margin="15dp"/>
     <EditText
+        android:id="@+id/num_questions_setup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
@@ -48,6 +56,9 @@
         android:layout_height="60dp"
         android:layout_gravity="center_horizontal"
         android:text="@string/generate_button_label"
+        android:layout_marginBottom="120dp"
         android:id="@+id/generate_button"/>
 
 </LinearLayout>
+
+</ScrollView>

@@ -6,20 +6,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.zxing.WriterException;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
-import org.json.JSONObject;
-
-import mobiledev.pxl.be.triviaking.support.QRCodeSupporter;
+import mobiledev.pxl.be.triviaking.support.CallbackInterface;
 
 
 public class MainActivity extends AppCompatActivity implements CallbackInterface, View.OnClickListener {
@@ -27,11 +21,11 @@ public class MainActivity extends AppCompatActivity implements CallbackInterface
     private IntentIntegrator qrScan;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+        protected void onCreate(Bundle savedInstanceState) {
 
-        super.onCreate(savedInstanceState);
+            super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_main);
+            setContentView(R.layout.activity_main);
 
         qrScan = new IntentIntegrator(this);
 

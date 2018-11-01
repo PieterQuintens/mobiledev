@@ -1,4 +1,4 @@
-package mobiledev.pxl.be.triviaking;
+package mobiledev.pxl.be.triviaking.support;
 
 import org.json.JSONObject;
 

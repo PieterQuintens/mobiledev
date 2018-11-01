@@ -1,34 +1,62 @@
 package mobiledev.pxl.be.triviaking;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.SimpleAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+
+import mobiledev.pxl.be.triviaking.support.ApiQueryTask;
+import mobiledev.pxl.be.triviaking.support.CallbackInterface;
+import mobiledev.pxl.be.triviaking.support.Remembrance;
 
 public class NewQuizActivity extends AppCompatActivity implements CallbackInterface {
 
     private JSONObject result;
     private HashMap<String,Integer> categories;
+    private Spinner categorySpinner;
     private String[] difficulties = { "any" , "easy" , "medium" , "hard"};
+    private Spinner diffSpinner;
+    private Context context;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+        context = this;
         getCategories();
 
-        Spinner spinner = findViewById(R.id.difficulty_spinner);
-        spinner.setAdapter(new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, difficulties));
+        diffSpinner = findViewById(R.id.difficulty_spinner);
+        diffSpinner.setAdapter(new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, difficulties));
+
+        findViewById(R.id.generate_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Remembrance.category = categorySpinner.getSelectedItem().toString();
+                Remembrance.categoryId = categories.get(Remembrance.category);
+                Remembrance.difficulty = diffSpinner.getSelectedItem().toString();
+                int numQuestions = Integer.parseInt(((EditText) findViewById(R.id.num_questions_setup)).getText().toString());
+                if(numQuestions > 30) {
+                    Toast.makeText(context, "Please set number of questions to lower than thirty", Toast.LENGTH_LONG).show();
+                } else {
+                    Remembrance.questions = numQuestions;
+                    Intent i = new Intent(context, PrestartActivity.class);
+                    startActivity(i);
+                }
+            }
+        });
     }
 
     public void getCategories() {
@@ -52,8 +80,8 @@ public class NewQuizActivity extends AppCompatActivity implements CallbackInterf
             }
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, categories.keySet().toArray(new String[categories.size()]));
 
-            Spinner spinner = (Spinner) findViewById(R.id.category_spinner);
-            spinner.setAdapter(adapter);
+            categorySpinner = (Spinner) findViewById(R.id.category_spinner);
+            categorySpinner.setAdapter(adapter);
         } catch (JSONException e) {
             e.printStackTrace();
             Log.e("Tagtag", "Weer JsonError");

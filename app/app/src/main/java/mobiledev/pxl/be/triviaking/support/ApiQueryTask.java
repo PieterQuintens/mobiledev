@@ -1,4 +1,4 @@
-package mobiledev.pxl.be.triviaking;
+package mobiledev.pxl.be.triviaking.support;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -13,6 +13,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
+
+import mobiledev.pxl.be.triviaking.support.CallbackInterface;
 
 public class ApiQueryTask extends AsyncTask<String, Void, String> {
     public CallbackInterface delegate = null;

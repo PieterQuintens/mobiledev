@@ -1,9 +1,12 @@
 package mobiledev.pxl.be.triviaking;
 
 import android.app.Activity;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,15 +15,20 @@ import android.widget.TextView;
 
 import com.google.zxing.WriterException;
 
+import mobiledev.pxl.be.triviaking.data.DatabaseContract;
+import mobiledev.pxl.be.triviaking.data.DbHelper;
 import mobiledev.pxl.be.triviaking.fragmentsupport.Quiz;
 import mobiledev.pxl.be.triviaking.fragmentsupport.QuizContent;
 import mobiledev.pxl.be.triviaking.support.QRCodeSupporter;
+import mobiledev.pxl.be.triviaking.support.Remembrance;
 
 public class QuizDetailFragment extends Fragment {
 
     public static final String ARG_ITEM_ID = "item_id";
 
-    private Quiz mItem;
+    private SQLiteDatabase mDb;
+
+    private Cursor mItem;
 
     public QuizDetailFragment() {
     }
@@ -29,18 +37,10 @@ public class QuizDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments().containsKey(ARG_ITEM_ID)) {
-            // Load the dummy content specified by the fragment
-            // arguments. In a real-world scenario, use a Loader
-            // to load content from a content provider.
-            mItem = QuizContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
+        mDb = new DbHelper(Remembrance.quizDetailContext).getReadableDatabase();
 
-            Activity activity = this.getActivity();
-            CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
-            if (appBarLayout != null) {
-                appBarLayout.setTitle(mItem.created.toString());
-            }
-        }
+
+        mItem =  mDb.query(DatabaseContract.Quiz.TABLE_NAME, null, DatabaseContract.Quiz._ID + "=" + getArguments().getInt(ARG_ITEM_ID), null, null, null, null, null);
     }
 
     @Override
@@ -48,18 +48,25 @@ public class QuizDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.quiz_detail, container, false);
 
-        // Show the dummy content as text in a TextView.
         if (mItem != null) {
-            ((TextView) rootView.findViewById(R.id.quiz_detail_category)).setText(mItem.category);
-            ((TextView) rootView.findViewById(R.id.quiz_detail_difficulty)).setText(mItem.difficulty);
-            ((TextView) rootView.findViewById(R.id.quiz_detail_num_questions)).setText(mItem.questions + "");
-            try {
-                QRCodeSupporter.encodeAsBitmap(mItem.data, (ImageView) rootView.findViewById(R.id.quiz_detail_qr));
-            } catch (WriterException e) {
-                e.printStackTrace();
-            }
+            mItem.moveToFirst();
+            ((TextView) rootView.findViewById(R.id.quiz_detail_category)).setText("Category: " + mItem.getString(mItem.getColumnIndex(DatabaseContract.Quiz.CATEGORY)));
+            ((TextView) rootView.findViewById(R.id.quiz_detail_difficulty)).setText("Difficulty: " + mItem.getString(mItem.getColumnIndex(DatabaseContract.Quiz.DIFFICULTY)));
+            ((TextView) rootView.findViewById(R.id.quiz_detail_num_questions)).setText("Number of questions:" + mItem.getInt(mItem.getColumnIndex(DatabaseContract.Quiz.QUESTIONS)) + "");
         }
 
+        // generateQR(rootView);
+
         return rootView;
+    }
+
+    private void generateQR(View rootView){
+        ImageView imageView = rootView.findViewById(R.id.quiz_detail_qr);
+        String qrString = mItem.getString(mItem.getColumnIndex(DatabaseContract.Quiz.DATA));
+        try {
+            QRCodeSupporter.encodeAsBitmap(qrString, imageView);
+        } catch (WriterException e) {
+            e.printStackTrace();
+        }
     }
 }

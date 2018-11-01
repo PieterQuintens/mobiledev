@@ -20,7 +20,6 @@ public class QRCodeSupporter {
             result = new MultiFormatWriter().encode(content,
                     BarcodeFormat.QR_CODE, width, width, null);
         } catch (IllegalArgumentException iae) {
-            // Unsupported format
             return null;
         }
         int w = result.getWidth();

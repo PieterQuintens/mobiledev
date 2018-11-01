@@ -11,5 +11,7 @@ public class DatabaseContract {
         public static final String CATEGORY = "category";
         public static final String QUESTIONS = "questions";
         public static final String DATA = "data";
+        public static final String DIFFICULTY = "difficulty";
+
     }
 }

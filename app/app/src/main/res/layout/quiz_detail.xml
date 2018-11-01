@@ -29,9 +29,10 @@
             android:text="@string/difficulty_label"
             />
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/quiz_detail_qr"/>
+            android:layout_width="240dp"
+            android:layout_height="240dp"
+            android:id="@+id/quiz_detail_qr"
+            />
     </LinearLayout>
 
 
