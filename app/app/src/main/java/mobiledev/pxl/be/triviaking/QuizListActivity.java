@@ -36,7 +36,6 @@ public class QuizListActivity extends AppCompatActivity {
         if (findViewById(R.id.quiz_detail_container) != null) {
             mTwoPane = true;
         }
-        Remembrance.quizDetailContext = this;
 
         View recyclerView = findViewById(R.id.quiz_list);
         assert recyclerView != null;

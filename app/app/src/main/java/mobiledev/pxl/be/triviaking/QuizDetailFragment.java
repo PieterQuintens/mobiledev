@@ -37,7 +37,7 @@ public class QuizDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mDb = new DbHelper(Remembrance.quizDetailContext).getReadableDatabase();
+        mDb = new DbHelper(this.getContext()).getReadableDatabase();
 
 
         mItem =  mDb.query(DatabaseContract.Quiz.TABLE_NAME, null, DatabaseContract.Quiz._ID + "=" + getArguments().getInt(ARG_ITEM_ID), null, null, null, null, null);

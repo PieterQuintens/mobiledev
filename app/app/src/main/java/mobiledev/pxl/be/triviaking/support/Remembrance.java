@@ -9,5 +9,5 @@ public final class Remembrance {
     public static String category;
     public static String difficulty;
     public static int questions;
-    public static Context quizDetailContext;
+    public Context quizDetailContext;
 }
