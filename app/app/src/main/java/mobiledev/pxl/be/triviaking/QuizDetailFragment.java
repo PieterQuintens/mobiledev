@@ -12,14 +12,15 @@ import android.widget.TextView;
 
 import com.google.zxing.WriterException;
 
-import mobiledev.pxl.be.triviaking.dummy.QuizContent;
+import mobiledev.pxl.be.triviaking.fragmentsupport.Quiz;
+import mobiledev.pxl.be.triviaking.fragmentsupport.QuizContent;
 import mobiledev.pxl.be.triviaking.support.QRCodeSupporter;
 
 public class QuizDetailFragment extends Fragment {
 
     public static final String ARG_ITEM_ID = "item_id";
 
-    private QuizContent.Quiz mItem;
+    private Quiz mItem;
 
     public QuizDetailFragment() {
     }
