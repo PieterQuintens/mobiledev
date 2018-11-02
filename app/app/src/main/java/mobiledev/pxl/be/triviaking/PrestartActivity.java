@@ -28,32 +28,40 @@ public class PrestartActivity extends AppCompatActivity implements CallbackInter
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_pre_start);
+        String scanUri = getIntent().getStringExtra("uri");
 
-        ApiQueryTask task = new ApiQueryTask();
-        task.delegate = this;
-        StringBuilder uri = new StringBuilder("https://opentdb.com/api.php?amount=");
-        uri.append(Remembrance.questions);
-        uri.append("&category=");
-        uri.append(Remembrance.categoryId);
-        if(!Remembrance.difficulty.equalsIgnoreCase("any")) {
-            uri.append("&difficulty=");
-            uri.append(Remembrance.difficulty);
+        if(scanUri == null) {
+            ApiQueryTask task = new ApiQueryTask();
+            task.delegate = this;
+            StringBuilder uri = new StringBuilder("https://opentdb.com/api.php?amount=");
+            uri.append(Remembrance.questions);
+            uri.append("&category=");
+            uri.append(Remembrance.categoryId);
+            if (!Remembrance.difficulty.equalsIgnoreCase("any")) {
+                uri.append("&difficulty=");
+                uri.append(Remembrance.difficulty);
+            }
+            uriString = uri.toString();
+            Log.i("uri", uriString);
+            task.execute(uriString);
+
+            DbHelper helper = new DbHelper(this);
+
+            mDb = helper.getWritableDatabase();
+
+            ContentValues values = new ContentValues();
+            values.put(DatabaseContract.Quiz.CATEGORY, Remembrance.category);
+            values.put(DatabaseContract.Quiz.DATA, uriString);
+            values.put(DatabaseContract.Quiz.QUESTIONS, Remembrance.questions);
+            values.put(DatabaseContract.Quiz.DIFFICULTY, Remembrance.difficulty);
+
+            mDb.insert(DatabaseContract.Quiz.TABLE_NAME, null, values);
+        } else {
+            ApiQueryTask task = new ApiQueryTask();
+            task.delegate = this;
+            uriString = scanUri;
+            task.execute(scanUri);
         }
-        uriString = uri.toString();
-        Log.i("uri", uriString);
-        task.execute(uriString);
-
-        DbHelper helper = new DbHelper(this);
-
-        mDb = helper.getWritableDatabase();
-
-        ContentValues values = new ContentValues();
-        values.put(DatabaseContract.Quiz.CATEGORY, Remembrance.category);
-        values.put(DatabaseContract.Quiz.DATA, uriString);
-        values.put(DatabaseContract.Quiz.QUESTIONS, Remembrance.questions);
-        values.put(DatabaseContract.Quiz.DIFFICULTY, Remembrance.difficulty);
-
-        mDb.insert(DatabaseContract.Quiz.TABLE_NAME, null, values);
     }
 
     @Override
@@ -65,7 +73,5 @@ public class PrestartActivity extends AppCompatActivity implements CallbackInter
             e.printStackTrace();
         }
         quizResult = result;
-
-
     }
 }

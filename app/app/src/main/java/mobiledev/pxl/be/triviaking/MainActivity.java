@@ -14,6 +14,7 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 import mobiledev.pxl.be.triviaking.support.CallbackInterface;
+import mobiledev.pxl.be.triviaking.support.Remembrance;
 
 
 public class MainActivity extends AppCompatActivity implements CallbackInterface, View.OnClickListener {
@@ -62,7 +63,6 @@ public class MainActivity extends AppCompatActivity implements CallbackInterface
         Log.i("Tagtag", result.toString());
     }
 
-    //Getting the scan results
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
@@ -72,6 +72,10 @@ public class MainActivity extends AppCompatActivity implements CallbackInterface
             } else {
                 try {
                     Toast.makeText(this,result.getContents(), Toast.LENGTH_LONG).show();
+                    Intent i = new Intent(this, PrestartActivity.class);
+                    String scanResult = result.getContents();
+                    i.putExtra("uri", scanResult);
+                    startActivity(i);
                 } catch (Exception e) {
                     e.printStackTrace();
                     Toast.makeText(this, "ERROR", Toast.LENGTH_LONG).show();
