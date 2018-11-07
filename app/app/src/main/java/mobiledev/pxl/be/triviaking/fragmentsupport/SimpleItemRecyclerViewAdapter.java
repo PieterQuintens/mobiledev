@@ -27,9 +27,10 @@ public class SimpleItemRecyclerViewAdapter
     private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+            int id = mValues.getInt(mValues.getColumnIndex(DatabaseContract.Quiz._ID));
             if (mTwoPane) {
                 Bundle arguments = new Bundle();
-                arguments.putInt(QuizDetailFragment.ARG_ITEM_ID, mValues.getInt(mValues.getColumnIndex(DatabaseContract.Quiz._ID)));
+                arguments.putInt(QuizDetailFragment.ARG_ITEM_ID, id);
                 QuizDetailFragment fragment = new QuizDetailFragment();
                 fragment.setArguments(arguments);
                 mParentActivity.getSupportFragmentManager().beginTransaction()
@@ -38,7 +39,7 @@ public class SimpleItemRecyclerViewAdapter
             } else {
                 Context context = view.getContext();
                 Intent intent = new Intent(context, QuizDetailActivity.class);
-                intent.putExtra(QuizDetailFragment.ARG_ITEM_ID, mValues.getInt(mValues.getColumnIndex(DatabaseContract.Quiz._ID)));
+                intent.putExtra(QuizDetailFragment.ARG_ITEM_ID, id);
 
                 context.startActivity(intent);
             }
@@ -58,7 +59,6 @@ public class SimpleItemRecyclerViewAdapter
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.quiz_list_content, parent, false);
-        view.setMinimumHeight(60);
         return new ViewHolder(view);
     }
 
