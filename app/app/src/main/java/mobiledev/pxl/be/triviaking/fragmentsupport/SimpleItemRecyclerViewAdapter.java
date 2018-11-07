@@ -15,7 +15,6 @@ import mobiledev.pxl.be.triviaking.QuizDetailActivity;
 import mobiledev.pxl.be.triviaking.QuizDetailFragment;
 import mobiledev.pxl.be.triviaking.QuizListActivity;
 import mobiledev.pxl.be.triviaking.R;
-import mobiledev.pxl.be.triviaking.data.DatabaseContract;
 
 public class SimpleItemRecyclerViewAdapter
         extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {

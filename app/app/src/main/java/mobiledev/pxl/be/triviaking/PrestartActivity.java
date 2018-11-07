@@ -62,23 +62,24 @@ public class PrestartActivity extends AppCompatActivity implements CallbackInter
             values.put(DatabaseContract.Quiz.DIFFICULTY, Remembrance.difficulty);
 
             mDb.insert(DatabaseContract.Quiz.TABLE_NAME, null, values);
-
-            findViewById(R.id.start_button).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(loaded){
-                        openQuestionActivity();
-                    } else {
-                        showToast();
-                    }
-                }
-            });
         } else {
+            Remembrance.questions = Integer.parseInt(scanUri.substring(scanUri.indexOf('=')+1, scanUri.indexOf('&')));
             ApiQueryTask task = new ApiQueryTask();
             task.delegate = this;
             uriString = scanUri;
             task.execute(scanUri);
         }
+
+        findViewById(R.id.start_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(loaded){
+                    openQuestionActivity();
+                } else {
+                    showToast();
+                }
+            }
+        });
     }
 
     @Override
@@ -105,6 +106,7 @@ public class PrestartActivity extends AppCompatActivity implements CallbackInter
     private void openQuestionActivity() {
         Intent i = new Intent(this, QuestionActivity.class);
         Remembrance.questionNumber = 0;
+        Remembrance.score = 0;
         startActivity(i);
     }
 }

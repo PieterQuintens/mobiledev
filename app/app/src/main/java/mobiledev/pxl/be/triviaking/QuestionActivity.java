@@ -130,6 +130,6 @@ public class QuestionActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Toast.makeText(this, "NO SECOND CHANCES!", Toast.LENGTH_SHORT);
+        Toast.makeText(this, "NO SECOND CHANCES!", Toast.LENGTH_SHORT).show();
     }
 }

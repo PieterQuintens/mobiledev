@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements CallbackInterface
         String stringScore = i.getStringExtra("QuizScore");
         if(stringScore != null) {
             Toast.makeText(this,stringScore, Toast.LENGTH_LONG).show();
+
         }
         Remembrance.questionNumber = -1;
         Remembrance.score = -1;
