@@ -1,11 +1,14 @@
 package mobiledev.pxl.be.triviaking;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.zxing.WriterException;
 
@@ -21,6 +24,7 @@ import mobiledev.pxl.be.triviaking.support.Remembrance;
 public class PrestartActivity extends AppCompatActivity implements CallbackInterface {
     JSONObject quizResult;
     String uriString;
+    private boolean loaded = false;
     private SQLiteDatabase mDb;
 
     @Override
@@ -56,6 +60,17 @@ public class PrestartActivity extends AppCompatActivity implements CallbackInter
             values.put(DatabaseContract.Quiz.DIFFICULTY, Remembrance.difficulty);
 
             mDb.insert(DatabaseContract.Quiz.TABLE_NAME, null, values);
+
+            findViewById(R.id.start_button).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(loaded){
+                        openQuestionActivity();
+                    } else {
+                        showToast();
+                    }
+                }
+            });
         } else {
             ApiQueryTask task = new ApiQueryTask();
             task.delegate = this;
@@ -73,5 +88,16 @@ public class PrestartActivity extends AppCompatActivity implements CallbackInter
             e.printStackTrace();
         }
         quizResult = result;
+        Remembrance.quiz = quizResult;
+        loaded = true;
+    }
+
+    private void showToast() {
+        Toast.makeText(this,"Please wait until the quiz is loaded...", Toast.LENGTH_SHORT).show();
+    }
+
+    private void openQuestionActivity() {
+        Intent i = new Intent(this, QuestionActivity.class);
+        Remembrance.questionNumber = 0;
     }
 }

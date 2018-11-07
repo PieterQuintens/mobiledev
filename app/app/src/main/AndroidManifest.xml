@@ -15,7 +15,7 @@
             android:name=".MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
-            android:theme="@style/FullscreenTheme">
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,15 +26,16 @@
             android:name=".NewQuizActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
-            android:theme="@style/FullscreenTheme"></activity>
-        <activity android:name=".PrestartActivity"
+             />
+        <activity
+            android:name=".PrestartActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
-            android:theme="@style/FullscreenTheme"></activity>
+            />
         <activity
             android:name=".QuizListActivity"
             android:label="@string/title_quiz_list"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".QuizDetailActivity"
             android:label="@string/title_quiz_detail"
@@ -44,6 +45,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="mobiledev.pxl.be.triviaking.QuizListActivity" />
         </activity>
+        <activity
+            android:name=".QuestionActivity"
+            android:label="@string/title_activity_question"
+            ></activity>
     </application>
 
 </manifest>
