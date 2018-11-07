@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import com.google.zxing.WriterException;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import mobiledev.pxl.be.triviaking.data.DatabaseContract;
@@ -22,7 +24,7 @@ import mobiledev.pxl.be.triviaking.support.QRCodeSupporter;
 import mobiledev.pxl.be.triviaking.support.Remembrance;
 
 public class PrestartActivity extends AppCompatActivity implements CallbackInterface {
-    JSONObject quizResult;
+    JSONArray quizResult;
     String uriString;
     private boolean loaded = false;
     private SQLiteDatabase mDb;
@@ -87,9 +89,13 @@ public class PrestartActivity extends AppCompatActivity implements CallbackInter
         } catch (WriterException e) {
             e.printStackTrace();
         }
-        quizResult = result;
-        Remembrance.quiz = quizResult;
-        loaded = true;
+        try {
+            quizResult = result.getJSONArray("results");
+            Remembrance.quiz = quizResult;
+            loaded = true;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private void showToast() {
@@ -99,5 +105,6 @@ public class PrestartActivity extends AppCompatActivity implements CallbackInter
     private void openQuestionActivity() {
         Intent i = new Intent(this, QuestionActivity.class);
         Remembrance.questionNumber = 0;
+        startActivity(i);
     }
 }

@@ -29,13 +29,11 @@ public class NewQuizActivity extends AppCompatActivity implements CallbackInterf
     private Spinner categorySpinner;
     private String[] difficulties = { "any" , "easy" , "medium" , "hard"};
     private Spinner diffSpinner;
-    private Context context;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-        context = this;
         getCategories();
 
         diffSpinner = findViewById(R.id.difficulty_spinner);
@@ -48,12 +46,10 @@ public class NewQuizActivity extends AppCompatActivity implements CallbackInterf
                 Remembrance.categoryId = categories.get(Remembrance.category);
                 Remembrance.difficulty = diffSpinner.getSelectedItem().toString();
                 int numQuestions = Integer.parseInt(((EditText) findViewById(R.id.num_questions_setup)).getText().toString());
-                if(numQuestions > 30) {
-                    Toast.makeText(context, "Please set number of questions to lower than thirty", Toast.LENGTH_LONG).show();
+                if(numQuestions > 30 || numQuestions == 0) {
+                    showToast(numQuestions);
                 } else {
-                    Remembrance.questions = numQuestions;
-                    Intent i = new Intent(context, PrestartActivity.class);
-                    startActivity(i);
+                    generateQuiz(numQuestions);
                 }
             }
         });
@@ -86,5 +82,21 @@ public class NewQuizActivity extends AppCompatActivity implements CallbackInterf
             e.printStackTrace();
             Log.e("Tagtag", "Weer JsonError");
         }
+    }
+
+    private void showToast(int numQuestions) {
+        if(numQuestions == 0) {
+            Toast.makeText(this, "Please set number of questions.", Toast.LENGTH_LONG).show();
+            return;
+        }
+        Toast.makeText(this, "Please set number of questions to lower than thirty", Toast.LENGTH_LONG).show();
+    }
+
+    private void generateQuiz(int numQuestions){
+        Remembrance.questions = numQuestions;
+        Remembrance.score = 0;
+        Intent i = new Intent(this, PrestartActivity.class);
+        startActivity(i);
+
     }
 }

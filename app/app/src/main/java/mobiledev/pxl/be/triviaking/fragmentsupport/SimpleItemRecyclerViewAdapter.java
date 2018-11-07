@@ -58,6 +58,7 @@ public class SimpleItemRecyclerViewAdapter
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.quiz_list_content, parent, false);
+        view.setMinimumHeight(60);
         return new ViewHolder(view);
     }
 
@@ -88,5 +89,7 @@ public class SimpleItemRecyclerViewAdapter
             mIdView = (TextView) view.findViewById(R.id.id_text);
             mContentView = (TextView) view.findViewById(R.id.content);
         }
+
+
     }
 }
