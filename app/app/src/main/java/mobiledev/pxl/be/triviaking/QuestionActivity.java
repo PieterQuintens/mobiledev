@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -41,7 +42,7 @@ public class QuestionActivity extends AppCompatActivity {
             JSONObject question = quiz.getJSONObject(Remembrance.questionNumber);
             String type = question.getString("type");
             multi = type.equalsIgnoreCase("multiple");
-            ((TextView) findViewById(R.id.question_label)).setText(question.getString("question"));
+            ((TextView) findViewById(R.id.question_label)).setText(Html.fromHtml(question.getString("question")).toString());
             if(multi) {
                 correctId = (int)(Math.random()*3);
                 Button[] buttons = { findViewById(R.id.answer_button_1), findViewById(R.id.answer_button_2),findViewById(R.id.answer_button_3),findViewById(R.id.answer_button_4) };
@@ -53,7 +54,7 @@ public class QuestionActivity extends AppCompatActivity {
                 }
                 array.put(correctId, correctAnswer);
                 for(int i = 0; i < buttons.length; i++) {
-                    buttons[i].setText(array.getString(i));
+                    buttons[i].setText(Html.fromHtml(array.getString(i)).toString());
                     if(i==correctId){
                         buttons[i].setOnClickListener(new View.OnClickListener() {
                             @Override

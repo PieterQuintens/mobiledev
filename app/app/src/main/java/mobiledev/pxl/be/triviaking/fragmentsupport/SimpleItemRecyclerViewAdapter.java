@@ -24,28 +24,6 @@ public class SimpleItemRecyclerViewAdapter
     private final Cursor mValues;
     private final boolean mTwoPane;
 
-    private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            int id = mValues.getInt(mValues.getColumnIndex(DatabaseContract.Quiz._ID));
-            if (mTwoPane) {
-                Bundle arguments = new Bundle();
-                arguments.putInt(QuizDetailFragment.ARG_ITEM_ID, id);
-                QuizDetailFragment fragment = new QuizDetailFragment();
-                fragment.setArguments(arguments);
-                mParentActivity.getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.quiz_detail_container, fragment)
-                        .commit();
-            } else {
-                Context context = view.getContext();
-                Intent intent = new Intent(context, QuizDetailActivity.class);
-                intent.putExtra(QuizDetailFragment.ARG_ITEM_ID, id);
-
-                context.startActivity(intent);
-            }
-        }
-    };
-
     public SimpleItemRecyclerViewAdapter(QuizListActivity parent,
                                   Cursor items,
                                   boolean twoPane) {
@@ -67,12 +45,31 @@ public class SimpleItemRecyclerViewAdapter
         if(!mValues.moveToPosition(position)){
             return;
         }
-
+        final int id = mValues.getInt(0);
         holder.mIdView.setText(mValues.getString(1));
         holder.mContentView.setText(mValues.getString(2));
 
         holder.itemView.setTag(mValues.getString(2));
-        holder.itemView.setOnClickListener(mOnClickListener);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mTwoPane) {
+                    Bundle arguments = new Bundle();
+                    arguments.putInt(QuizDetailFragment.ARG_ITEM_ID, id);
+                    QuizDetailFragment fragment = new QuizDetailFragment();
+                    fragment.setArguments(arguments);
+                    mParentActivity.getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.quiz_detail_container, fragment)
+                            .commit();
+                } else {
+                    Context context = v.getContext();
+                    Intent intent = new Intent(context, QuizDetailActivity.class);
+                    intent.putExtra(QuizDetailFragment.ARG_ITEM_ID, id);
+
+                    context.startActivity(intent);
+                }
+            }
+        });
     }
 
     @Override
