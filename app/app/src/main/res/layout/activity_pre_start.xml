@@ -27,7 +27,4 @@
         android:layout_gravity="center_horizontal"
         android:id="@+id/share_qr"/>
 
-
-
-
 </LinearLayout>
