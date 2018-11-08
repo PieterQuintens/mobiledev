@@ -1,6 +1,9 @@
 package mobiledev.pxl.be.triviaking;
 
+import android.app.Application;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,11 +25,11 @@ public class MainActivity extends AppCompatActivity implements CallbackInterface
     private IntentIntegrator qrScan;
 
     @Override
-        protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
 
-            super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);
 
-            setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main);
 
         qrScan = new IntentIntegrator(this);
 
@@ -48,8 +51,8 @@ public class MainActivity extends AppCompatActivity implements CallbackInterface
 
         Intent i = this.getIntent();
         String stringScore = i.getStringExtra("QuizScore");
-        if(stringScore != null) {
-            Toast.makeText(this,stringScore, Toast.LENGTH_LONG).show();
+        if (stringScore != null) {
+            Toast.makeText(this, stringScore, Toast.LENGTH_LONG).show();
 
         }
         Remembrance.questionNumber = -1;
@@ -81,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements CallbackInterface
                 Toast.makeText(this, "Result Not Found", Toast.LENGTH_LONG).show();
             } else {
                 try {
-                    Toast.makeText(this,result.getContents(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, result.getContents(), Toast.LENGTH_LONG).show();
                     Intent i = new Intent(this, PrestartActivity.class);
                     String scanResult = result.getContents();
                     i.putExtra("uri", scanResult);
@@ -95,8 +98,32 @@ public class MainActivity extends AppCompatActivity implements CallbackInterface
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
+
     @Override
     public void onClick(View view) {
         qrScan.initiateScan();
+    }
+
+    @Override
+    public void onBackPressed() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setMessage("Are you sure you want to exit?");
+        builder.setCancelable(true);
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        builder.setPositiveButton("Exit", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                moveTaskToBack(true);
+                android.os.Process.killProcess(android.os.Process.myPid());
+                System.exit(1);
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 }
