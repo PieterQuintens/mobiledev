@@ -27,6 +27,7 @@ public class PrestartActivity extends AppCompatActivity implements CallbackInter
     JSONArray quizResult;
     String uriString;
     private boolean loaded = false;
+    private boolean errorResponse = false;
     private SQLiteDatabase mDb;
 
     @Override
@@ -75,8 +76,10 @@ public class PrestartActivity extends AppCompatActivity implements CallbackInter
             public void onClick(View v) {
                 if(loaded){
                     openQuestionActivity();
+                } else if (errorResponse){
+                    showNewSettingsToast();
                 } else {
-                    showToast();
+                    showWaitToast();
                 }
             }
         });
@@ -84,6 +87,16 @@ public class PrestartActivity extends AppCompatActivity implements CallbackInter
 
     @Override
     public void processFinish(JSONObject result) {
+        try {
+            int responseCode = result.getInt("response_code");
+            if(responseCode!=0){
+                errorResponse = true;
+                return;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return;
+        }
         ImageView view = findViewById(R.id.share_qr);
         try {
             QRCodeSupporter.encodeAsBitmap(uriString, view);
@@ -99,8 +112,12 @@ public class PrestartActivity extends AppCompatActivity implements CallbackInter
         }
     }
 
-    private void showToast() {
+    private void showWaitToast() {
         Toast.makeText(this,"Please wait until the quiz is loaded...", Toast.LENGTH_SHORT).show();
+    }
+
+    private void showNewSettingsToast() {
+        Toast.makeText(this, "Unable to find enough questions for current settings! Change the settings!", Toast.LENGTH_LONG).show();
     }
 
     private void openQuestionActivity() {
